@@ -1,26 +1,20 @@
-//importe react et useState pour gérer l'etat des champs du formulaire
+//importations nécessaires
 import React, { useState } from "react";
-
-import { useNavigate } from "react-router-dom"; 
-//importe axios
 import axios from "axios";
-//import des composants spécifiques de boostrap
 import { Button, Form, Container } from "react-bootstrap";
-//importe le CSS de boostrap
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 //Composant gérant l'affichage et la soumission du formulaire de connexion
 function Connexion({ onLogin }) {
-  //déclaration des états en stockant les valeurs et en les mettant à jour via les set
+  //etat pour stocker les données saisies par l'utilisateur
   const [email, setEmail] = useState("");
   const [motDePasse, setMotDePasse] = useState("");
-  //stockage de message retourné à la fin de la connexion
+  //etat qui stocke un message d'erreur
   const [message, setMessage] = useState("");
-  const navigate = useNavigate();
 
-  //fonction qui gère la soumission du formulaire
+  //fonction appelée pendant la soumission du formulaire
   const handleSubmit = async (e) => {    
-    //evite le chargement automatique après la soumission
+    //empêche le rafraichissement de la page
     e.preventDefault();
     try {
       //envoie une requête post avec les données  du formulaire
@@ -28,74 +22,65 @@ function Connexion({ onLogin }) {
         email, motDePasse 
       })
       .then(response =>{
-        //const pseudo = response.data.pseudo;
-        //setMessage(response.data.message);
-
         const {pseudo} = response.data;
         
-        // Enregistre les données de l'utilisateur dans localStorage
+        //enregistre le pseudo et l'id utilisateur dans le localStorage
         localStorage.setItem("pseudo", pseudo);
-              // Enregistre l'ID utilisateur dans le localStorage après une connexion réussie
-        localStorage.setItem("id", response.data.idUtilisateur);  // Ajoute cette ligne
+        localStorage.setItem("id", response.data.idUtilisateur); 
       
+        //envoie la réponse à la console
         console.log(response.data);
+        //met a jour l'état de connexion dans l'App
         onLogin(pseudo);
-        navigate("/Home");
       })
       .catch(error => {
+        //affiche message d'erreur venant du serveur
         setMessage(error.response.data.message);
       });
     //si une erreur se produit
     } catch (error) {
-      //affiche un message d'erreur sinon
+      //affiche un message d'erreur générique
       setMessage("Erreur lors de la connexion.");
     }
   };
 
   return (
-    //aligne et centre le contenu horizontalement  et verticalement avec une hauteur minimale à la hauteur de l'ecran et la même couleur que le fond
-    <Container className="d-flex justify-content-center align-items-center" style={{ minheight: "100vh", backgroundColor: "#f4f4f4" }}>
-      {/*lorsque l'utilisateur clique sur s'inscire, handleSubmit s'execute 
-         le formulaire a une largeur maximale de 400px et s'adapte à l'ecran*/}
+    // Conteneur centré horizontalement et verticalement avec un fond gris clair
+    <Container className="d-flex justify-content-center align-items-center" style={{backgroundColor: "#f4f4f4" }}>
+      {/* Formulaire de connexion */} 
       <Form onSubmit={handleSubmit} style={{ width: "100%", maxWidth: "400px" }}>
-        {/*le titre est centré avecune marge inférieure mb-4*/}
         <h2 className="text-center mb-4">Connexion</h2>
-        {/*regroupe un champ du formulaire*/}
+
+        {/* Champ pour l'email */}
         <Form.Group controlId="formEmail">
-          {/*affiche le texte Email*/}
           <Form.Label>Email</Form.Label>
-          {/*Champ de saisie où l'utilisateur entre son mail*/}
           <Form.Control
             type="email"
-            placeholder="Entrez votre email"
-            //liaison avec l'état mail   
+            placeholder="Entrez votre email"  
             value={email}
-            //met à jour l'état pseudo lorsque l'utilisateur tape sur le champ 
             onChange={(e) => setEmail(e.target.value)}
-            required //rend le champ obligatoire
+            required 
           />
         </Form.Group>
-        {/*regroupe un champ du formulaire*/}
+
+        {/* Champ pour le mot de passe */}
         <Form.Group controlId="formMotDePasse">
-          {/*affiche le texte Mot de passe*/}
           <Form.Label>Mot de passe</Form.Label>
           <Form.Control
             type="password"
             placeholder="Mot de passe"
-            //liaison avec l'état mot de passe 
             value={motDePasse}
-            //met à jour l'état mot de passe lorsque l'utilisateur tape sur le champ     
             onChange={(e) => setMotDePasse(e.target.value)}
-            required //rend le champ obligatoire
+            required 
           />
         </Form.Group>
 
-        {/*style bleu pour le bouton et le type indique que le bouton déclanche la soumission*/}
+        {/* Bouton de soumission */}
         <Button variant="primary" type="submit" >
           Se connecter
         </Button>
-        {/*Affiche un message seulement si il n'est pas vide
-          en rouge, centré et avec une marge mt-3 */}
+
+        {/* Affichage du message d'erreur s'il n'est pas nul*/}
         {message && <p className="text-center mt-3 text-danger">{message}</p>}
       </Form>
     </Container>

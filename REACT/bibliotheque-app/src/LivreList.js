@@ -1,6 +1,7 @@
+//premier test pour voir le bon fonctionnement du React avec le spring boot et la bdd
+
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
-//import { AuthContext } from "./AuthContext";
 
 function LivreList() {
   const { user } = useContext(AuthContext);

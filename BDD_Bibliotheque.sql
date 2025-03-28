@@ -1,2 +1,0 @@
-SELECT titre
-FROM Livre;
