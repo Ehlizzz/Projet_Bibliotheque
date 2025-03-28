@@ -13,7 +13,7 @@ Le backend est basé sur **Spring Boot**. Pour y accéder, suivez ces étapes :
 - Naviguez dans le répertoire "Spring Boot/bibliotheque".
 - Vous y trouverez le code nécessaire pour gérer la logique côté serveur
   
-Le backend gère la gestion des livres, des livres possédés, des auteurs, des éditions, des genres et des utilisateurs.
+Le backend gère les opérations liées à la gestion des ressources de la bibliothèque.
 
 ### 2. **React (Frontend)**
 
@@ -22,6 +22,6 @@ Le frontend est basé sur **React**. Pour y accéder :
 - Allez dans le répertoire "REACT/bibliotheque".
 - Vous y trouverez le code qui constitue l'interface utilisateur de la bibliothèque virtuelle.
   
-Ce frontend est responsable de l'affichage des informations des livres, de la recherche, de l'inscription des utilisateurs et des fonctionnalités d'authentification.
+Ce frontend est responsable de l'affichage des informations nécessaires à la gestion de l'application. 
 
-Ignorer le dossier "React". 
+*Ignorer le dossier "React", il est vide. Utilisez celui que je viens de vous indiquer.*
